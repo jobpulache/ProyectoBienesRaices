@@ -31,6 +31,7 @@
     justify-content: space-between;
     align-items: flex-end;
    }
+   
 }
 
 .navegacion{
@@ -39,6 +40,8 @@
   transition: visibility .3s ease-in-out, opacity 0.5s linear, height .5s linear;//Transicion al mostrar los enlaces  al presionar el logo de hamburguesa
   opacity: 0;//Es igual al visibility: hidden;, es una forma de crear trasparencia
   height: 0;
+ 
+  
 
 
     @include tablet{
@@ -53,19 +56,15 @@
         font-size: 1.8rem;
         display: block;
         text-align: center;
+       
       @include tablet{
         margin-right: 2rem;
 
         &:last-of-type{
             margin-right: 0;
         }
-      }
-        
-    }
-    
-   
-    
-    
+      }       
+    }   
 }
 
 //*Menu re hamburguesa*/
@@ -86,5 +85,6 @@ img{
   visibility: visible;//Va a hacer que se vea y visibility hidden que no se vea 
   opacity: 1;
   height: auto;
+ 
   
 }
