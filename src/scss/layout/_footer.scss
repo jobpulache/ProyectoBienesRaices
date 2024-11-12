@@ -2,9 +2,17 @@
     padding: $separacion/2 0;
     background-color: $grisOscuro;
     margin-bottom: 0;
+    
+ .navegacion{
+    opacity: 1;
+    visibility: visible;
+    height: auto;
+ }
 
     .contenedor-footer{
         padding-top: $separacion/2;
+       
+
     }
     .copyright{
         color: $blanco;

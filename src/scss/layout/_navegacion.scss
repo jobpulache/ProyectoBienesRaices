@@ -1,3 +1,25 @@
+.derecha{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @include tablet{
+    align-items: flex-end;
+  }
+  .dark-mode-boton{
+    width: 3rem;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    filter:invert(100%) ;//Permite crear efectos muy parecidos a los de instagram. Aquí esta convirtiendo mi svg negro a color blanco
+  &:hover{
+    cursor: pointer;
+  }
+  } 
+  @include tablet{
+    margin-top: 0;
+  }
+}
+
 .barra{
     display: flex;
    flex-direction: column;
@@ -7,15 +29,23 @@
    @include tablet{
     flex-direction: row;
     justify-content: space-between;
+    align-items: flex-end;
    }
 }
 
 .navegacion{
-  display: none;//No este visible. Cuando este en tamaño mas grande aparecera
+  // display: none;//No este visible. Cuando este en tamaño mas grande aparecera
+  visibility: hidden;//Hace casi lo mismo que el display none o sea que que no se vea 
+  transition: visibility .3s ease-in-out, opacity 0.5s linear, height .5s linear;//Transicion al mostrar los enlaces  al presionar el logo de hamburguesa
+  opacity: 0;//Es igual al visibility: hidden;, es una forma de crear trasparencia
+  height: 0;
+
 
     @include tablet{
         display: flex; 
         align-items: center;   
+        opacity: 1;
+        visibility: visible;
     }
     a{
         color: $blanco;
@@ -48,5 +78,13 @@ img{
 }
 }
 .mostrar{
-  display: block;
+  // display: flex;  
+  // flex-direction: column;
+  // @include tablet{
+  //   flex-direction: row;
+  // }
+  visibility: visible;//Va a hacer que se vea y visibility hidden que no se vea 
+  opacity: 1;
+  height: auto;
+  
 }

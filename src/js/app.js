@@ -1,7 +1,14 @@
 //Cuando ya este cargado tanto el js, html y css execute the function
 document.addEventListener('DOMContentLoaded', function(){
     eventListeners();
+    darkMode();
 });
+function darkMode(){
+    const botonDarkMode= document.querySelector('.dark-mode-boton');
+    botonDarkMode.addEventListener('click', function(){
+        document.body.classList.toggle('dark-mode')
+    })
+}
 
 function eventListeners(){
    const mobileMenu = document.querySelector('.mobile-menu')//Estamos tomando la clase que tenemos en el HTML.Lleva punto por que es una clase
