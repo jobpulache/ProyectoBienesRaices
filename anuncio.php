@@ -13,7 +13,6 @@
         <div class="contenedor contenido-header">
             <div class="barra">
                 <a href="/"><img src="build/img/logo.svg" alt="logo de la bienes raices"></a>
-
                 <div class="mobile-menu">
                     <img src="build/img/barras.svg" alt="Icon menu responsive">
                 </div>
