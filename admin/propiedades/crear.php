@@ -2,26 +2,32 @@
 //Conetadno a database
 require '../../includes/config/database.php'; //Trayendo a la funcion de conectar bd
 //llamado a esa funcion
-
 $db = conectarBD();
-
 if($_SERVER['REQUEST_METHOD']=== 'POST'){
     echo '<pre>';
     var_dump($_POST);
     echo '</pre';
-
     //Pasamos todos los campos al metodo post
-
-    $titulo = $_POST['titulo'];
+    //Para que nos muestre los datos 
+    $titulo = $_POST['titulo'];//Les asignamos el contenido
     $precio = $_POST['precio'];
-    $descripcion = $_POST['descripcion'];
+    $descripcion = $_POST['descripcion'];//A estas variables les asignamos el contenido del post
     $habitaciones = $_POST['habitaciones'];
     $wc = $_POST['wc'];
     $estacionamiento= $_POST['estacionamiento'];
-    $vendedor = $_POST['vendedor'];
+    $vendedoresId = $_POST['vendedor'];
 
     //Insert in the database
-    
+    $query = "INSERT INTO propiedades(titulo, precio, descripcion, habitaciones, wc, estacionamiento, vendedorId)
+    VALUES ('$titulo',
+    '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$vendedoresId')";
+   
+//    echo $query; - Para probar que este haciendo la inserción de datos de manera correcta.
+
+    $resultado = mysqli_query($db,$query);
+    if($resultado){
+        echo 'Insertado correctamente';
+    }
 }
 
 require '../../includes/funciones.php';
