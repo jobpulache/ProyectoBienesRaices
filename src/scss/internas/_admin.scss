@@ -1,0 +1,13 @@
+.alerta{
+    padding: .5rem;
+    text-align: center;
+    color: $blanco;
+    text-transform: uppercase;
+    margin: 1rem 0;//1rem arriba y abajo, 0 derecha e izquierda
+    font-weight:$bold ;
+
+  &.error{
+    background-color: $rojo;
+
+  }
+}

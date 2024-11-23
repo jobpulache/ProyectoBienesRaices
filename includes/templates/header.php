@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienes raices</title>
     <link rel="stylesheet" href="/build/css/app.css"><!--Le estamos diciendo que en la raiz de mi proyecto tengo un archivo llamado build-->
+    <script src="/build/js/bundle.js.min.map"></script>
 </head>
 
 <body>
