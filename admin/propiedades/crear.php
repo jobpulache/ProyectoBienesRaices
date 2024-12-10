@@ -113,29 +113,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
         //Creating carpt
-        $carpetaImagenes = '../../imagenes'; //Cuando no habea errores, va a crear esa carpeta.
+        $carpetaImagenes = '../../imagenes/'; //Cuando no habea errores, va a crear esa carpeta.
 
 
         if (!is_dir($carpetaImagenes)) { //This function return if carpt exists or not(is_dir)
             mkdir($carpetaImagenes); //Esta función it's for creating directory
         };
 
+        //Generating one name only 
+        $nombreImagen = md5(uniqid(rand(), true)) . ".jpg"; //Generatuing name only at img
 
         //Subir imagen - exits one function7
-        move_uploaded_file($imagen['tmp_name'], $carpetaImagenes."/archivo.jpg");
+        move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen); //lo guardamos en el servidor
 
-        exit; //Para   que no insert in BD
+        // exit; //Para   que no insert in BD
 
 
-        $query = "INSERT INTO propiedades(titulo, precio, descripcion, habitaciones, wc, estacionamiento,creado, Vendedores_id)
+        $query = "INSERT INTO propiedades(titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento,creado, Vendedores_id)
         VALUES ('$titulo',
-        '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamiento','$creado', '$vendedorId')"; //Add creado
+        '$precio', '$nombreImagen', '$descripcion', '$habitaciones', '$wc', '$estacionamiento','$creado', '$vendedorId')"; //Add creado
 
         $resultado = mysqli_query($db, $query);
         if ($resultado) {
             // echo 'Insertado correctamente';
             //Mejor hacemos que nos redireccione, así evitamos que los usuarios piensen que no se registraron los datos
-            header('Location: /admin'); //Header es una función para redireccionar a un usuario
+            header('Location: /admin?resultado=1'); //Header es una función para redireccionar a un usuario
         } else {
             echo 'No se logro';
         }
