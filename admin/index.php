@@ -9,7 +9,7 @@ incluirTemplate('header');
 <main class="contenedor seccion">
     <h1>Administrador de bienes raices</h1>
     <?php
-    if (intval($resultado) === 1): ?>
+    if (intval($resultado) === 1): ?> <!--intval es un funcion que convierte a entero-->
         <p class="alerta exito">Anuncio creado correctamente</p>
     <?php endif; ?>
     <a href="/admin/propiedades/crear.php" class="boton boton-verde">Nueva propiedad</a>
