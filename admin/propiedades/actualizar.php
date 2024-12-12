@@ -17,6 +17,16 @@ require '../../includes/config/database.php'; //Trayendo a la funcion de conecta
 //llamado a esa funcion
 $db = conectarBD();
 
+//Obtener los datos de la propiedad
+$consulta = "SELECT * FROM propiedades WHERE id = ${id}";//Traemos los registros de acuerdo al id
+//con mysqli_query le pasamos la conexión y la consulta
+$resultado = mysqli_query($db, $consulta);
+$propiedad = mysqli_fetch_assoc($resultado);//Para que no afecten las variables
+echo '<pre>';
+var_dump($propiedad);
+echo '</pre>';
+
+
 //Consultar para obtener los vendedores - consulta a la BD
 $consulta = "SELECT * FROM VENDEDORES";
 $resultado = mysqli_query($db, $consulta); //Contatenando la conexión y la query
@@ -25,15 +35,14 @@ $resultado = mysqli_query($db, $consulta); //Contatenando la conexión y la quer
 //Arreglos con mensajes de errores
 $errores = [];
 
-//Inicializamos estos arrays vacios y cuando se envie el formulario se completaran ya que estamos usando el REQUES_MEHTOD method="POST"
-//Las creo vacias y luego les asigno ese valor
-$titulo = '';
-$precio = '';
-$descripcion = '';
-$habitaciones = '';
-$wc = '';
-$estacionamiento = '';
-$vendedorId = '';
+$titulo = $propiedad['titulo'];//de la propiedad tomo su atributo para que se muestre en la tabla para su actualización
+$precio = $propiedad['precio'];
+$descripcion = $propiedad['descripcion'];
+$habitaciones = $propiedad['habitaciones'];
+$wc = $propiedad['wc'];
+$estacionamiento = $propiedad['estacionamiento'];
+$vendedorId = $propiedad['vendedorId'];
+$imagenPropiedad = $propiedad['imagen'];
 
 //Ejecutar el código después de que el usuario envía el form.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -185,6 +194,9 @@ incluirTemplate('header');
 
             <label for="imagen">Imagen</label>
             <input type="file" id="imagen" name="imagen" accept="image/jpeg, image/png"> <!--Para que  solo acepte imagenes de tipo jpeg y png-->
+
+            <img src="/imagenes/<?php echo $imagenPropiedad;?>" class="imagen-small"><!--Le pasamos la imagen para quw la muestre-->
+
 
             <label for="descripcion">Descripción</label>
             <textarea id="descripcion" name="descripcion"><?php echo $descripcion; ?></textarea>
