@@ -2,12 +2,12 @@
 // echo '<pre>';
 // var_dump($_GET);
 // echo '</pre>';
-$id =$_GET['id'];//A esta variable le asignamos get en la posición id
-$id = filter_var($id, FILTER_VALIDATE_INT);//Validades el id para que sea un entero.
+$id = $_GET['id']; //A esta variable le asignamos get en la posición id
+$id = filter_var($id, FILTER_VALIDATE_INT); //Validades el id para que sea un entero.
 
 //Validar que sea un id valido
-if(!$id){
-    header('location:/admin');//Si no es un id(int) lo redireccionamos
+if (!$id) {
+    header('location:/admin'); //Si no es un id(int) lo redireccionamos
 }
 
 
@@ -18,10 +18,10 @@ require '../../includes/config/database.php'; //Trayendo a la funcion de conecta
 $db = conectarBD();
 
 //Obtener los datos de la propiedad
-$consulta = "SELECT * FROM propiedades WHERE id = ${id}";//Traemos los registros de acuerdo al id
+$consulta = "SELECT * FROM propiedades WHERE id = ${id}"; //Traemos los registros de acuerdo al id
 //con mysqli_query le pasamos la conexión y la consulta
 $resultado = mysqli_query($db, $consulta);
-$propiedad = mysqli_fetch_assoc($resultado);//Para que no afecten las variables
+$propiedad = mysqli_fetch_assoc($resultado); //Para que no afecten las variables
 echo '<pre>';
 var_dump($propiedad);
 echo '</pre>';
@@ -35,7 +35,7 @@ $resultado = mysqli_query($db, $consulta); //Contatenando la conexión y la quer
 //Arreglos con mensajes de errores
 $errores = [];
 
-$titulo = $propiedad['titulo'];//de la propiedad tomo su atributo para que se muestre en la tabla para su actualización
+$titulo = $propiedad['titulo']; //de la propiedad tomo su atributo para que se muestre en la tabla para su actualización
 $precio = $propiedad['precio'];
 $descripcion = $propiedad['descripcion'];
 $habitaciones = $propiedad['habitaciones'];
@@ -62,6 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // echo '<pre>';
     // var_dump($_POST);
     // echo '</pre>';
+
+    // exit; //Dejar de ejecutar el código
 
     // echo '<pre>';
     // var_dump($_FILES); //Es la super global de archivos - lee archivos(puede ser img)
@@ -108,9 +110,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$vendedorId) {
         $errores[] = 'Elige un vendedor';
     }
-    if (!$imagen['name'] || $imagen['error']) {
-        $errores[] = "La imagen es obligatorio"; //La agregamos a errores eb caso no haya subido la imagen
-    }
 
     //Validamos el tamaño(1mb max.)
     $medida = 1000 * 1000; //Formula de medida, convertimos de bits a kbits
@@ -131,35 +130,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //empty revisa que un array este vacio
     if (empty($errores)) {
 
-        /*Upload de archivos*/
+        // /*Upload de archivos*/
 
 
-        //Creating carpt
-        $carpetaImagenes = '../../imagenes/'; //Cuando no habea errores, va a crear esa carpeta.
+        // //Creating carpt
+        // $carpetaImagenes = '../../imagenes/'; //Cuando no habea errores, va a crear esa carpeta.
 
 
-        if (!is_dir($carpetaImagenes)) { //This function return if carpt exists or not(is_dir)
-            mkdir($carpetaImagenes); //Esta función it's for creating directory
-        };
+        // if (!is_dir($carpetaImagenes)) { //This function return if carpt exists or not(is_dir)
+        //     mkdir($carpetaImagenes); //Esta función it's for creating directory
+        // };
 
-        //Generating one name only 
-        $nombreImagen = md5(uniqid(rand(), true)) . ".jpg"; //Generatuing name only at img
+        // //Generating one name only 
+        // $nombreImagen = md5(uniqid(rand(), true)) . ".jpg"; //Generatuing name only at img
 
-        //Subir imagen - exits one function7
-        move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen); //lo guardamos en el servidor
+        // //Subir imagen - exits one function7
+        // move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen); //lo guardamos en el servidor
 
-        // exit; //Para   que no insert in BD
+        // // exit; //Para   que no insert in BD
 
 
-        $query = "INSERT INTO propiedades(titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento,creado, Vendedores_id)
-        VALUES ('$titulo',
-        '$precio', '$nombreImagen', '$descripcion', '$habitaciones', '$wc', '$estacionamiento','$creado', '$vendedorId')"; //Add creado
+        $query = "UPDATE propiedades SET titulo = '${titulo}', precio = '${precio}', descripcion = '${descripcion}', 
+        habitaciones = ${habitaciones}, wc = ${wc}, estacionamiento = ${estacionamiento}, vendedores_Id= ${vendedorId} WHERE id = ${id}";
+
+        // echo $query;
 
         $resultado = mysqli_query($db, $query);
         if ($resultado) {
             // echo 'Insertado correctamente';
             //Mejor hacemos que nos redireccione, así evitamos que los usuarios piensen que no se registraron los datos
-            header('Location: /admin?resultado=1'); //Header es una función para redireccionar a un usuario
+             header('Location: /admin?resultado=2'); //Header es una función para redireccionar a un usuario
         } else {
             echo 'No se logro';
         }
@@ -183,7 +183,7 @@ incluirTemplate('header');
         </div>
     <?php endforeach; ?>
     <!--Cuando un form quiee subir archivos se debe agregar: enctype="multipart/form-data". Para que lea archivos-->
-    <form class="formulario-contacto" method="POST" action="/admin/propiedades/crear.php" enctype="multipart/form-data">
+    <form class="formulario-contacto" method="POST" enctype="multipart/form-data">
         <fieldset>
             <legend>Información General</legend>
             <label for="titulo">Titulo:</label>
@@ -195,7 +195,7 @@ incluirTemplate('header');
             <label for="imagen">Imagen</label>
             <input type="file" id="imagen" name="imagen" accept="image/jpeg, image/png"> <!--Para que  solo acepte imagenes de tipo jpeg y png-->
 
-            <img src="/imagenes/<?php echo $imagenPropiedad;?>" class="imagen-small"><!--Le pasamos la imagen para quw la muestre-->
+            <img src="/imagenes/<?php echo $imagenPropiedad; ?>" class="imagen-small"><!--Le pasamos la imagen para quw la muestre-->
 
 
             <label for="descripcion">Descripción</label>
@@ -228,7 +228,6 @@ incluirTemplate('header');
             </select>
         </fieldset>
         <input type="submit" value="Actualizar propiedad" class="boton boton-verde">
-
     </form>
 </main>
 
